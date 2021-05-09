@@ -3,18 +3,58 @@ package com.example.testwebview
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.preference.PreferenceManager
 import android.webkit.*
 import android.widget.SearchView
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val BASE_URL = "https://google.com"
     private val SEARCH_PATH = "/search?q="
+    private val KEY = "MY_KEY"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        functionsSearching()
+        functionsButtons()
+    }
+
+    private fun functionsButtons() {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+
+        buttonGet.setOnClickListener {
+            val myPref = prefs.getString(KEY, "NO existe")
+            showAlert(myPref!!)
+        }
+
+        buttonPut.setOnClickListener {
+            val editor = prefs.edit()
+            editor.putString(KEY, "Insercion")
+            editor.apply()
+            showAlert("Valor Guardado")
+        }
+
+        buttonDelete.setOnClickListener {
+            val editor = prefs.edit()
+            editor.remove(KEY)
+            editor.apply()
+            showAlert("Valor Borrado")
+        }
+    }
+
+    private fun showAlert(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("My preferences")
+        builder.setMessage(message)
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun functionsSearching() {
         // Refresh
         swipeRefresh.setOnRefreshListener {
             webView.reload()
