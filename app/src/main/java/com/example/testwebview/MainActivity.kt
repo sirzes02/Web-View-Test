@@ -1,6 +1,7 @@
 package com.example.testwebview
 
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.preference.PreferenceManager
@@ -20,6 +21,12 @@ class MainActivity : AppCompatActivity() {
 
         functionsSearching()
         functionsButtons()
+        functionsFonts()
+    }
+
+    private fun functionsFonts() {
+        textBienvenido.typeface = Typeface.createFromAsset(assets, "fonts/StarJedi-DGRW.ttf")
+        textSaludo.typeface = Typeface.createFromAsset(assets, "fonts/StarJediHollow-A4lL.ttf")
     }
 
     private fun functionsButtons() {
